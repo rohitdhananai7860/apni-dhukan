@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,14 +11,17 @@
       background-color: #fafafa;
       margin: 20px;
     }
+
     h1 {
       text-align: center;
       margin-bottom: 20px;
     }
+
     #cart-items {
       list-style: none;
       padding: 0;
     }
+
     #cart-items li {
       padding: 10px;
       border-bottom: 1px solid #ccc;
@@ -25,6 +29,7 @@
       justify-content: space-between;
       align-items: center;
     }
+
     #cart-items li button {
       background-color: #e74c3c;
       color: white;
@@ -33,14 +38,17 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     #cart-items li button:hover {
       background-color: #c0392b;
     }
+
     #cart-total {
       text-align: right;
       font-size: 1.2em;
       margin-top: 20px;
     }
+
     .back-link {
       display: block;
       margin-top: 20px;
@@ -48,16 +56,98 @@
       text-decoration: none;
       color: #007BFF;
     }
+
     .back-link:hover {
       text-decoration: underline;
     }
+
+    /* From Uiverse.io by adeladel522 */
+    .button {
+      position: relative;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+      padding-block: 0.5rem;
+      padding-inline: 1.25rem;
+      background-color: rgb(0 107 179);
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #ffff;
+      gap: 10px;
+      font-weight: bold;
+      border: 3px solid #ffffff4d;
+      outline: none;
+      overflow: hidden;
+      font-size: 15px;
+      margin-left: 88%;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+      border-color: #fff9;
+    }
+
+    .button:hover .icon {
+      transform: translate(4px);
+    }
+
+    .button:hover::before {
+      animation: shine 1.5s ease-out infinite;
+    }
+
+    .button::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100%;
+      background-image: linear-gradient(120deg,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(255, 255, 255, 0.8),
+          rgba(255, 255, 255, 0) 70%);
+      top: 0;
+      left: -100px;
+      opacity: 0.6;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100px;
+      }
+
+      60% {
+        left: 100%;
+      }
+
+      to {
+        left: 100%;
+      }
+    }
   </style>
 </head>
+
 <body>
   <h1>Your Shopping Cart</h1>
   <ul id="cart-items"></ul>
   <p id="cart-total">Total: $0.00</p>
   <a class="back-link" href="index.html">&larr; Back to Store</a>
+  <!-- From Uiverse.io by adeladel522 -->
+  <a href="https://rohitdhananai7860.github.io/apni-dhukan/chart.html" style="text-decoration: none; color: #fafafa;"><button class="button">
+    checkout
+    </a><svg fill="currentColor" viewBox="0 0 24 24" class="icon">
+      <path clip-rule="evenodd"
+        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z"
+        fill-rule="evenodd"></path>
+    </svg>
+  </button>
+
 
   <script>
     // Retrieve cart from localStorage
@@ -89,4 +179,5 @@
     updateCartDisplay();
   </script>
 </body>
+
 </html>
