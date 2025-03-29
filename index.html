@@ -16,11 +16,17 @@
     </style>
   </head>
   <body class="bg-gray-100">
-    <div class="flex h-screen">
+    <div class="flex flex-col md:flex-row h-screen">
       <!-- Sidebar -->
-      <div class="w-1/4 bg-white border-r border-gray-300">
+      <div class="md:w-1/4 w-full bg-white border-b md:border-b-0 md:border-r border-gray-300">
         <div class="flex items-center justify-between p-4 border-b border-gray-300">
-          <img alt="User" class="rounded-full" height="40" src="https://storage.googleapis.com/a1aa/image/a7a4uIFKiKlF9FazlJOFBLBJ-JPEWPFElf93Hg_DFtM.jpg" width="40" />
+          <img
+            alt="User"
+            class="rounded-full"
+            height="40"
+            src="https://storage.googleapis.com/a1aa/image/a7a4uIFKiKlF9FazlJOFBLBJ-JPEWPFElf93Hg_DFtM.jpg"
+            width="40"
+          />
           <div class="flex space-x-4">
             <i class="fas fa-circle-notch text-gray-500"></i>
             <i class="fas fa-comment-alt text-gray-500"></i>
@@ -28,13 +34,27 @@
           </div>
         </div>
         <div class="p-4">
-          <input class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Search or start new chat" type="text" />
+          <input
+            class="w-full p-2 border border-gray-300 rounded-lg"
+            placeholder="Search or start new chat"
+            type="text"
+          />
         </div>
-        <!-- Single chat entry: Public Talk -->
+        <!-- Single Chat Entry: Public Talk -->
         <div class="overflow-y-auto h-full">
-          <a href="#" id="publicTalk" class="block bg-gray-200 hover:bg-gray-300 p-4 border-b border-gray-300">
+          <a
+            href="#"
+            id="publicTalk"
+            class="block bg-gray-200 hover:bg-gray-300 p-4 border-b border-gray-300"
+          >
             <div class="flex items-center space-x-4">
-              <img alt="Public Talk" class="rounded-full" height="40" src="https://via.placeholder.com/40" width="40" />
+              <img
+                alt="Public Talk"
+                class="rounded-full"
+                height="40"
+                src="https://via.placeholder.com/40"
+                width="40"
+              />
               <div>
                 <div class="font-bold">Public Talk</div>
                 <div class="text-sm text-gray-500">Now</div>
@@ -51,13 +71,16 @@
           <h2 class="text-xl font-bold">Public Talk</h2>
         </div>
         <!-- Chat Content -->
-        <div id="chatContent" class="flex-1 p-4 overflow-y-auto space-y-4">
+        <div
+          id="chatContent"
+          class="flex-1 p-4 overflow-y-auto space-y-4"
+        >
           <!-- Chat messages will be rendered here -->
         </div>
         <!-- Chat Input -->
         <div id="chatInput" class="p-4 bg-white border-t border-gray-300">
           <form id="chatForm" class="flex flex-col space-y-2">
-            <div class="flex space-x-2">
+            <div class="flex flex-col sm:flex-row sm:space-x-2">
               <input
                 type="text"
                 id="messageInput"
@@ -65,8 +88,8 @@
                 class="flex-1 p-2 border rounded-lg focus:outline-none"
                 required
               />
-              <!-- File input (accepts any file) -->
-              <input type="file" id="fileInput" class="block" />
+              <!-- File input (for any file) -->
+              <input type="file" id="fileInput" class="block mt-2 sm:mt-0" />
             </div>
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg">
               Send
@@ -77,8 +100,7 @@
     </div>
     
     <script>
-      // ---------- User Login ----------
-      // Prompt the user for username and password on every page load.
+      /* ---------- User Login (Prompt on Every Load) ---------- */
       let userName = prompt("Enter your username:");
       while (!userName || userName.trim() === "") {
         userName = prompt("Username cannot be empty. Enter your username:");
@@ -88,11 +110,10 @@
         alert("Incorrect password! Please try again.");
         pass = prompt("Enter password (Hint: 786090):");
       }
-      // Create a dummy email from the username (for display purposes)
+      // Use a dummy email based on the username
       const userEmail = userName + "@local.com";
       
-      // ---------- Local Storage Database Setup ----------
-      // Functions to load and save messages from/to localStorage.
+      /* ---------- Local Storage Database Setup ---------- */
       function loadMessages() {
         const messagesJSON = localStorage.getItem("publicTalkMessages");
         return messagesJSON ? JSON.parse(messagesJSON) : [];
@@ -100,14 +121,13 @@
       
       function saveMessages(messages) {
         localStorage.setItem("publicTalkMessages", JSON.stringify(messages));
-        // Dispatch a storage event to simulate cross-tab update
+        // Trigger storage event to simulate cross-tab updates
         window.dispatchEvent(new Event("storage"));
       }
       
-      // Render messages in the chat content area.
       function renderMessages() {
         const chatContent = document.getElementById("chatContent");
-        chatContent.innerHTML = ""; // Clear existing messages
+        chatContent.innerHTML = "";
         const messages = loadMessages();
         messages.forEach(msg => {
           const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -142,28 +162,26 @@
           `;
           chatContent.appendChild(messageBubble);
         });
-        // Auto-scroll to the bottom
         chatContent.scrollTop = chatContent.scrollHeight;
       }
       
-      // Load and render previous messages on page load.
+      // Load previous messages on page load.
       renderMessages();
       
-      // Listen for storage events to update messages in case of changes in other tabs.
+      // Listen for storage events (to update messages if changed in another tab)
       window.addEventListener("storage", function(e) {
         if (e.key === "publicTalkMessages") {
           renderMessages();
         }
       });
       
-      // ---------- Sending Messages ----------
+      /* ---------- Sending Messages ---------- */
       document.getElementById("chatForm").addEventListener("submit", function(e) {
         e.preventDefault();
         const messageInput = document.getElementById("messageInput");
         const fileInput = document.getElementById("fileInput");
         const messageText = messageInput.value.trim();
         
-        // Helper function to add a message.
         function addMessage(msg) {
           const messages = loadMessages();
           messages.push(msg);
@@ -171,7 +189,7 @@
           renderMessages();
         }
         
-        // If a file is attached, read and send it.
+        // If a file is attached, read it.
         if (fileInput.files && fileInput.files[0]) {
           const file = fileInput.files[0];
           const reader = new FileReader();
@@ -191,7 +209,7 @@
           fileInput.value = "";
           messageInput.value = "";
         } else if (messageText !== "") {
-          // Otherwise, send as a text message.
+          // Otherwise, send a text message.
           const newMessage = {
             userEmail: userEmail,
             userName: userName,
@@ -213,7 +231,7 @@
         });
       });
       
-      // ---------- Open Chat on Click ----------
+      // Open chat on click (Public Talk)
       document.getElementById("publicTalk").addEventListener("click", function(e) {
         e.preventDefault();
         document.getElementById("chatHeader").innerHTML = '<h2 class="text-xl font-bold">Public Talk</h2>';
